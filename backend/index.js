@@ -19,6 +19,7 @@ app.use("/api/videos", VideoRouter);
 app.use("/api/comments", CommentRouter);
 app.use("/api/auth", AuthRouter);
 
+const __dirname = path.resolve();
 const dirPath = path.normalize(path.join(__dirname, "..", "frontend", "build"));
 
 app.use(express.static(dirPath));
