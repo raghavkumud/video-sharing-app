@@ -4,9 +4,6 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
-import { auth, provider } from "../firebase";
-import { signInWithPopup } from "firebase/auth";
-import { async } from "@firebase/util";
 import { useNavigate } from "react-router-dom";
 const Container = styled.div`
   display: flex;
@@ -15,6 +12,7 @@ const Container = styled.div`
   justify-content: center;
   height: calc(100vh - 56px);
   color: ${({ theme }) => theme.text};
+  z-index: 10;
 `;
 
 const Wrapper = styled.div`
@@ -23,7 +21,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   background-color: ${({ theme }) => theme.bgLighter};
   border: 1px solid ${({ theme }) => theme.soft};
-  padding: 20px 50px;
+  padding-top: 100px;
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
   gap: 10px;
 `;
 
@@ -60,6 +61,11 @@ const Button = styled.button`
   cursor: pointer;
   background-color: ${({ theme }) => theme.soft};
   color: ${({ theme }) => theme.textSoft};
+  &:hover {
+    color: white;
+    background-color: green;
+    cursor: pointer;
+  }
 `;
 
 const More = styled.div`
@@ -117,7 +123,6 @@ const SignIn = () => {
     Reader.readAsDataURL(file);
   };
 
-  //TODO: REGISTER FUNCTIONALITY
   const register = async (e) => {
     e.preventDefault();
     const userData = { name, image, password, email };
@@ -150,7 +155,7 @@ const SignIn = () => {
         <Button onClick={handleLogin}>Sign in</Button>
         <Title>or</Title>
         {image && <ProfilePicture imageSrc={image}> </ProfilePicture>}
-        {!image && <AccountCircleIcon style={{ fontSize: 150 }} />}
+        {!image && <AccountCircleIcon style={{ fontSize: 120 }} />}
         <Input
           placeholder="image"
           type="file"

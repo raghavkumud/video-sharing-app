@@ -9,30 +9,66 @@ import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
 import { useSelector } from "react-redux";
+import ShortMenu from "./components/ShortMenu";
+import { connect } from "react-redux";
+
 import "./App.css";
 const Container = styled.div`
   display: flex;
+  height: 100vh;
+  background-color: ${({ theme }) => theme.bg};
 `;
 
 const Main = styled.div`
-  flex: 7;
+  flex: 14;
   background-color: ${({ theme }) => theme.bg};
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  margin-top: 60px;
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #505050;
+    border-radius: 10px;
+    height: 10%;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888888;
+  }
 `;
 const Wrapper = styled.div`
   padding: 22px 96px;
 `;
-
+const mapThemeState = (state) => {
+  if (state.user.theme.darkMode) {
+    return { theme: darkTheme };
+  } else {
+    return { theme: lightTheme };
+  }
+};
+const ConnectedThemeProvider = connect(mapThemeState)(ThemeProvider);
 function App() {
-  const [darkMode, setDarkMode] = useState(true);
+  const { darkMode } = useSelector((state) => state.user.theme.darkMode);
   const { currentUser } = useSelector((state) => state.user);
-
+  const [shrinkMenu, setShrinkMenu] = useState(false);
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+    <ConnectedThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <Container>
         <BrowserRouter>
-          <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Navbar setShrinkMenu={setShrinkMenu} shrinkMenu={shrinkMenu} />
+          {shrinkMenu ? (
+            <ShortMenu darkMode={darkMode} />
+          ) : (
+            <Menu darkMode={darkMode} />
+          )}
           <Main>
-            <Navbar />
             <Wrapper>
               <Routes>
                 <Route path="/">
@@ -53,8 +89,8 @@ function App() {
           </Main>
         </BrowserRouter>
       </Container>
-    </ThemeProvider>
+    </ConnectedThemeProvider>
   );
 }
 
-export default App;
+export default connect(mapThemeState)(App);

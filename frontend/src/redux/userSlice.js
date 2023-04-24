@@ -4,6 +4,9 @@ const initialState = {
   currentUser: null,
   loading: false,
   error: false,
+  theme: {
+    darkMode: false,
+  },
 };
 
 export const userSlice = createSlice({
@@ -21,27 +24,45 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
-    logout: (state) => {
+    logOutRequest: (state) => {
+      state.loading = true;
+    },
+    logoutSuccess: (state) => {
       state.currentUser = null;
       state.loading = false;
       state.error = false;
     },
+    logOutFailure: (state) => {
+      state.error = true;
+      state.loading = false;
+    },
     subscription: (state, action) => {
-      if (state.currentUser.subscribedUsers.includes(action.payload)) {
-        state.currentUser.subscribedUsers.splice(
-          state.currentUser.subscribedUsers.findIndex(
+      if (state.currentUser.subscribers.includes(action.payload)) {
+        state.currentUser.subscribers.splice(
+          state.currentUser.subscribers.findIndex(
             (channelId) => channelId === action.payload
           ),
           1
         );
       } else {
-        state.currentUser.subscribedUsers.push(action.payload);
+        state.currentUser.subscribers.push(action.payload);
       }
+    },
+    setTheme: (state) => {
+      state.theme.darkMode = !state.theme.darkMode;
     },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout, subscription } =
-  userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logoutSuccess,
+  logOutFailure,
+  logOutRequest,
+  subscription,
+  setTheme,
+} = userSlice.actions;
 
 export default userSlice.reducer;

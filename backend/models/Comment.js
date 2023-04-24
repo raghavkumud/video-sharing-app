@@ -5,10 +5,12 @@ const CommentSchema = new mongoose.Schema(
     userId: {
       type: String,
       required: true,
+      ref: "User",
     },
     videoId: {
       type: String,
       required: true,
+      ref: "Video",
     },
     desc: {
       type: String,

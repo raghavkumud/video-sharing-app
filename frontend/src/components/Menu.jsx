@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import VidTube from "../img/logo.png";
 import HomeIcon from "@mui/icons-material/Home";
 import ExploreOutlinedIcon from "@mui/icons-material/ExploreOutlined";
 import SubscriptionsOutlinedIcon from "@mui/icons-material/SubscriptionsOutlined";
@@ -18,28 +17,37 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightnessOutlined";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setTheme } from "../redux/userSlice";
 const Container = styled.div`
-  flex: 1;
+  flex: 2;
   background-color: ${({ theme }) => theme.bgLighter};
   color: ${({ theme }) => theme.text};
   font-size: 14px;
-  position: sticky;
-  top: 0;
+  margin-top: 60px;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888888;
+    border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #888888;
+  }
 `;
 const Wrapper = styled.div`
   padding: 18px 26px;
-`;
-const Logo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-weight: bold;
-  margin-bottom: 25px;
-`;
-
-const Img = styled.img`
-  height: 25px;
 `;
 
 const Item = styled.div`
@@ -81,18 +89,17 @@ const Title = styled.h2`
   margin-bottom: 20px;
 `;
 
-const Menu = ({ darkMode, setDarkMode }) => {
+const Menu = ({ darkMode }) => {
   const { currentUser } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
+  const setUserTheme = async (e) => {
+    e.preventDefault();
+    dispatch(setTheme());
+  };
   return (
     <Container>
       <Wrapper>
-        <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Logo>
-            <Img src={VidTube} />
-            VidTube
-          </Logo>
-        </Link>
         <Item>
           <HomeIcon />
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -176,7 +183,7 @@ const Menu = ({ darkMode, setDarkMode }) => {
           <HelpOutlineOutlinedIcon />
           Help
         </Item>
-        <Item onClick={() => setDarkMode(!darkMode)}>
+        <Item onClick={(e) => setUserTheme(e)}>
           <SettingsBrightnessOutlinedIcon />
           {darkMode ? "Light" : "Dark"} Mode
         </Item>

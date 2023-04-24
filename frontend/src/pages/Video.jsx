@@ -21,7 +21,7 @@ import Recommendation from "../components/Recommendation";
 
 const Container = styled.div`
   display: flex;
-  gap: 24px;
+  gap: 12px;
 `;
 
 const Content = styled.div`
@@ -160,7 +160,7 @@ const Video = () => {
   };
 
   const handleSub = async () => {
-    currentUser.subscribedUsers.includes(channel._id)
+    currentUser.subscribers.includes(channel._id)
       ? await axios.put(`/users/unsub/${channel._id}`)
       : await axios.put(`/users/sub/${channel._id}`);
     dispatch(subscription(channel._id));
@@ -220,7 +220,7 @@ const Video = () => {
             </ChannelDetail>
           </ChannelInfo>
           <Subscribe onClick={handleSub}>
-            {currentUser && currentUser.subscribedUsers?.includes(channel._id)
+            {currentUser && currentUser.subscribers.includes(channel._id)
               ? "SUBSCRIBED"
               : "SUBSCRIBE"}
           </Subscribe>

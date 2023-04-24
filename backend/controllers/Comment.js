@@ -10,9 +10,17 @@ export const addComment = async (req, res, next) => {
       userId: req.user.id,
     });
     const savedComment = await comment.save();
-    return res.status(500).json({
+    const comments = await Comment.find().populate("userId");
+    const userComments = comments.filter(
+      (comment) => comment.userId === req.user.id
+    );
+    const otherComments = comments.filter(
+      (comment) => comment.userId !== req.user.id
+    );
+    const shuffledComments = [...userComments, ...otherComments];
+    return res.status(200).json({
       success: true,
-      comment: savedComment,
+      comments: shuffledComments,
     });
   } catch (err) {
     next(err);
@@ -38,7 +46,9 @@ export const deleteComment = async (req, res, next) => {
 };
 export const getComments = async (req, res, next) => {
   try {
-    const comments = await Comment.find({ videoId: req.params.id });
+    const comments = await Comment.find({ videoId: req.params.id }).populate(
+      "userId"
+    );
     return res.status(200).json({
       success: true,
       comments,

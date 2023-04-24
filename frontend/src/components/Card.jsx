@@ -19,13 +19,14 @@ const Image = styled.img`
   height: ${(props) => (props.type === "sm" ? "120px" : "202px")};
   background-color: #999;
   flex: 1;
+  border-radius: ${(props) => (props.type === "sm" ? "5px" : "8px")};
+  z-index: 1;
 `;
 
 const Details = styled.div`
   display: flex;
   margin-top: ${(props) => props.type !== "sm" && "16px"};
   gap: 12px;
-  flex: 1;
 `;
 
 const ChannelImage = styled.img`
@@ -36,23 +37,27 @@ const ChannelImage = styled.img`
   display: ${(props) => props.type === "sm" && "none"};
 `;
 
-const Texts = styled.div``;
+const Texts = styled.div`
+  display: ${(props) => props.type === "sm" && "flex"};
+`;
 
 const Title = styled.h1`
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 500;
   color: ${({ theme }) => theme.text};
+  flex: ${(props) => props.type === "sm" && 2};
 `;
 
 const ChannelName = styled.h2`
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
-  margin: 9px 0px;
+  flex: ${(props) => props.type === "sm" && 1};
 `;
 
 const Info = styled.div`
   font-size: 14px;
   color: ${({ theme }) => theme.textSoft};
+  flex: ${(props) => props.type === "sm" && 1};
 `;
 
 const Card = ({ type, video }) => {
@@ -76,7 +81,7 @@ const Card = ({ type, video }) => {
     if (res.data.success) {
       dispatch(fetchSuccess(res.data.video));
       try {
-        const viewRes = await axios.put(`/videos/view/${res.data.video._id}`);
+        await axios.put(`/videos/view/${res.data.video._id}`);
       } catch (err) {}
       navigate(`/video/${video._id}`);
     } else {

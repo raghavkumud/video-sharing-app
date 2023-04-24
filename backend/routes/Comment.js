@@ -7,7 +7,7 @@ import {
 } from "../controllers/Comment.js";
 const router = express.Router();
 
-router.get("/:id", verifyToken, getComments);
+router.get("/:id", getComments);
 router.post("/:id", verifyToken, addComment);
 router.delete("/:id", verifyToken, deleteComment);
 
