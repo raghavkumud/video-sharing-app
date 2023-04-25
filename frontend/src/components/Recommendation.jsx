@@ -12,10 +12,10 @@ const Recommendation = ({ tags }) => {
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const res = await axios.get(`/videos/tags?tags=${tags}`);
+      const res = await axios.get(`/api/videos/tags?tags=${tags}`);
       setVideos(res.data.videos);
       if (res.data.videos.length == 0) {
-        const rres = await axios.get(`/videos/random`);
+        const rres = await axios.get(`/api/videos/random`);
         setVideos(rres.data.videos);
       }
     };

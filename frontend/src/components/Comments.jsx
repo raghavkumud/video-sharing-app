@@ -50,7 +50,7 @@ const Comments = ({ videoId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/comments/${videoId}`);
+        const res = await axios.get(`/api/comments/${videoId}`);
         console.log({
           m: "in comment",
           res,
@@ -64,7 +64,7 @@ const Comments = ({ videoId }) => {
 
   const commentHandler = async () => {
     const data = { desc: comment };
-    const res = await axios.post(`/comments/${videoId}`, data);
+    const res = await axios.post(`/api/comments/${videoId}`, data);
     console.log({ res });
     if (res.data.success) {
       setComments(res.data.comments);

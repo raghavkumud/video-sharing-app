@@ -103,7 +103,7 @@ const SignIn = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("/auth/signin", { name, password });
+      const res = await axios.post("/api/auth/signin", { name, password });
       dispatch(loginSuccess(res.data.user));
       navigate("/");
     } catch (err) {
@@ -127,7 +127,7 @@ const SignIn = () => {
     e.preventDefault();
     const userData = { name, image, password, email };
     const res = await axios.post(
-      `http://localhost:8800/api/auth/signup`,
+      `/api/auth/signup`,
       userData
     );
     if (res.data.success) {

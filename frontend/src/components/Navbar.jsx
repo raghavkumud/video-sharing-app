@@ -168,7 +168,7 @@ const Navbar = ({ setShrinkMenu, shrinkMenu }) => {
     e.preventDefault();
     try {
       dispatch(logOutRequest());
-      const res = await axios.delete("/auth/logOut");
+      const res = await axios.delete("/api/auth/logOut");
       console.log(res);
       if (res.data.success) {
         dispatch(logoutSuccess());

@@ -65,7 +65,7 @@ const Card = ({ type, video }) => {
 
   useEffect(() => {
     const fetchChannel = async () => {
-      const res = await axios.get(`/users/find/${video.userId}`);
+      const res = await axios.get(`/api/users/find/${video.userId}`);
       setChannel(res.data.user);
     };
     fetchChannel();
@@ -76,12 +76,12 @@ const Card = ({ type, video }) => {
     e.preventDefault();
     dispatch(fetchStart());
     const res = await axios.get(
-      `http://localhost:8800/api/videos/${video._id}`
+      `/api/videos/${video._id}`
     );
     if (res.data.success) {
       dispatch(fetchSuccess(res.data.video));
       try {
-        await axios.put(`/videos/view/${res.data.video._id}`);
+        await axios.put(`/api/videos/view/${res.data.video._id}`);
       } catch (err) {}
       navigate(`/video/${video._id}`);
     } else {
